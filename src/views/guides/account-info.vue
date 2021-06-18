@@ -58,13 +58,13 @@ export default {
     height: 37px;
     background: #ffffff;
     border-radius: 19px;
-    border: 1px solid #ff7100;
+    // border: 1px solid #ff7100;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
     color: #ff7100;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 }
 .tips {

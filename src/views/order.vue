@@ -36,9 +36,9 @@
         >确认支付</van-button
       >
     </div>
-    <div class="pay-box">
+    <!-- <div class="pay-box">
       <img :src="'data:image/jpeg;base64,' + payQr" alt="" />
-    </div>
+    </div> -->
   </div>
 </template>
 

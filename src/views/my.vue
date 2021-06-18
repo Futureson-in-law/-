@@ -41,7 +41,7 @@
     </div>
     <van-cell icon="friends" title="微信客服" is-link url="/#/my/contact" />
     <van-cell icon="lock" @click="exit" title="退出登录" is-link />
-    <van-cell icon="cluster" title="版本信息" :value="ver[0].val" />
+    <!-- <van-cell icon="cluster" title="版本信息" :value="ver[0].val" /> -->
   </div>
 </template>
 
@@ -95,6 +95,7 @@ export default {
         })
         .then(() => {
           this.$store.commit("clearUserInfo");
+          this.$store.commit("changIndexRefresh", true);
           this.$router.replace({
             name: "login",
           });

@@ -9,7 +9,7 @@
         <img class="icon" src="../../assets/img/icon-hangqing@2x.png" />
         <div class="text">最新行情</div>
       </van-grid-item>
-      <van-grid-item to="/newsList">
+      <van-grid-item to="/" @click="showGX">
         <img class="icon" src="../../assets/img/icon-hetong@2x.png" />
         <div class="text">钢铁资讯</div>
       </van-grid-item>

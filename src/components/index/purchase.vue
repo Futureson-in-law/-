@@ -4,11 +4,11 @@
     <div class="content">
       <div class="left">
         <div class="name">当前报价</div>
-        <div class="num">{{ purchase.caigoucount }}</div>
+        <div class="num">{{ purchase.caigoucount }} <span>家</span></div>
       </div>
       <div class="right">
         <div class="name">当前订单量</div>
-        <div class="num">{{ purchase.countcompany }}</div>
+        <div class="num">{{ purchase.countcompany }} <span>单</span></div>
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@ export default {
   }
   .content {
     min-width: 270px;
-     width: 70%;
+    width: 70%;
     height: 64px;
     background: #fceedf;
     border-radius: 4px;
@@ -62,8 +62,12 @@ export default {
       justify-content: center;
       .num {
         font-size: 20px;
-        font-weight: 500;
+        font-weight: 600;
         color: #f63a7e;
+        span {
+          font-size: 14px;
+          font-weight: 400;
+        }
       }
     }
     .right {
@@ -77,8 +81,12 @@ export default {
       justify-content: center;
       .num {
         font-size: 20px;
-        font-weight: 500;
+        font-weight: 600;
         color: #ff4949;
+        span {
+          font-size: 14px;
+          font-weight: 400;
+        }
       }
     }
     .name {

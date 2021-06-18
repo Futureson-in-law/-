@@ -54,7 +54,7 @@
         >登录</van-button
       >
     </div>
-    <div class="privacy" style="font-size: 12px">
+    <div v-show="bottomShow" class="privacy" style="font-size: 12px">
       登录即表明同意<span @click="routeLink(`/hybrid/userprivacypolicy.html`)"
         >《用户服务协议》</span
       >和<span @click="routeLink(`/hybrid/privacypolicy.html`)"
@@ -79,13 +79,33 @@ export default {
       sendLoading: false,
       sendText: "发送验证码",
       loginLoading: false,
+      bottomShow: true,
+      originalHeight: 0, //原始高度
+      screenHeight: 0, //实时高度
     };
   },
   async created() {
     let res = await wxRecord(8001);
-    console.log(res);
+  },
+  mounted() {
+    //首次进入的原始高度
+    this.originalHeight = document.documentElement.clientHeight;
+    window.addEventListener("resize", this.watchResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.watchResize);
+  },
+  watch: {
+    screenHeight(newHeight) {
+      //监听屏幕高度变化
+      this.bottomShow = this.originalHeight <= newHeight;
+    },
   },
   methods: {
+    watchResize() {
+      //实时变化的窗口高度
+      this.screenHeight = document.documentElement.clientHeight;
+    },
     async sendCode() {
       if (this.sendText != "发送验证码") return;
       this.sendLoading = true;
@@ -140,12 +160,12 @@ export default {
             });
           } else {
             this.$router.replace({
-              path: "/home",
+              path: "/index",
             });
           }
         } else {
           this.$router.replace({
-            path: "/home",
+            path: "/index",
           });
         }
       } else {
@@ -190,7 +210,7 @@ export default {
     text-align: center;
   }
   .privacy {
-    position: absolute;
+    position: fixed;
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);

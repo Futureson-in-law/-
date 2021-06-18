@@ -1,8 +1,8 @@
 <template>
   <div class="box">
     <div class="href">
-      <router-link to="/info/app">手机版</router-link>
-      <router-link to="/info/program">小程序版</router-link>
+      <router-link to="/info/app">中钢网APP</router-link>
+      <router-link to="/info/program">钢小秘</router-link>
       <router-link to="/info/account">公众号</router-link>
       <router-link to="/info/about">关于我们</router-link>
     </div>
