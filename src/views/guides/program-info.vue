@@ -9,13 +9,15 @@
     <div class="content">
       <img src="../../assets/img/logo_zgw_mini@2x.png" alt="" srcset="" />
       <p>钢小秘个人版</p>
-      <div class="down">{{ isWeixin ? "长按图片识别" : "长按图片保存" }}</div>
+      <div class="down">
+        {{ isWeixin ? "长按二维码识别" : "长按二维码保存" }}
+      </div>
       <p>平台引流、企业宣传、员工传播，<br />三重推广助力卖货翻番！</p>
       <p>访客数据、在线订单、客户资料，<br />实效管理为您卖货护航！</p>
     </div>
     <div class="tips">
       如何操作？<br />
-      1.{{ isWeixin ? "长按二维码图片识别" : "长按二维码图片保存" }}<br />
+      1.{{ isWeixin ? "长按二维码识别" : "长按二维码保存" }}<br />
       2.通过微信识别二维码即可进入公众号
     </div>
   </div>

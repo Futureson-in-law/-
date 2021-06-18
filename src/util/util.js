@@ -57,3 +57,18 @@ export const changeTime = (e) => {
     let year = e.getFullYear()
     return year + "-" + month + "-" + date;
 }
+
+
+export const sortObj = (obj) => {
+    var arr = [];
+    for (var i in obj) {
+        arr.push([obj[i], i]);
+    };
+    arr.reverse();
+    var len = arr.length;
+    var obj = {};
+    for (var i = 0; i < len; i++) {
+        obj[arr[i][1]] = arr[i][0];
+    }
+    return obj;
+}

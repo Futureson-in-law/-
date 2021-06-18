@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <keep-alive include="home">
-      <router-view />
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" />
     </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
     <van-tabbar
       active-color="#FF5959"
       inactive-color="#636363"
       route
       :placeholder="true"
-      v-show="$route.meta.showTabbar"
+      v-show="$route.meta.showTabbar && $store.state.tabbar"
     >
       <van-tabbar-item replace to="/index" icon="wap-home"
         >首页</van-tabbar-item

@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="btn" v-if="isbtn && isVip">
-        <router-link to="/my/vipInfo">查看权益</router-link>
+        <a @click="route('/my/vipInfo')">查看权益</a>
       </div>
     </div>
     <div class="title-box" v-else>
@@ -66,6 +66,19 @@ export default {
     async getUserCenter() {
       let res = await usercenter();
       this.userinfo = res;
+    },
+    route(url) {
+      if (this.$route.query.source) {
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+          window.webkit.messageHandlers.look.postMessage();
+        } else if (navigator.userAgent.match(/android/i)) {
+          window.webCall.look();
+        }
+      } else {
+        this.$router.push({
+          path: url,
+        });
+      }
     },
   },
 };

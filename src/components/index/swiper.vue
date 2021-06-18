@@ -7,7 +7,13 @@
         v-for="(item, index) of list"
         :key="index"
       >
-        <img class="banner" :src="item.ImgUrl" alt="" srcset="" />
+        <img
+          class="banner"
+          @click="routeLink(item.HttpUrl)"
+          :src="item.ImgUrl"
+          alt=""
+          srcset=""
+        />
       </van-swipe-item>
     </van-swipe>
   </div>
@@ -24,6 +30,12 @@ export default {
   async created() {
     let { data } = await GetBannerList();
     this.list = data;
+  },
+  methods: {
+    routeLink(url) {
+      if (url == "#") return;
+      window.location.href = url;
+    },
   },
 };
 </script>

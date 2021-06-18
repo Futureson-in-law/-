@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "postcss-px2rem": "^0.3.0",

@@ -6,10 +6,8 @@ export const apiUrl = "https://appv2servicet.zgw.com/api"
 export const Url = "https://appv2servicet.zgw.com"
 // export const Url = "https://appv2services.zgw.com"
 
-
 export const wxAppID = "wxe807d760920ee99e"
 //个人中心相关
-
 
 /** 
  *[post]
@@ -34,11 +32,7 @@ export const GetUserInfoByMemberId = (params) => {
     return get(apiUrl + "/Account/GetUserInfoByMemberId", params)
 }
 
-
-
 //首页相关
-
-
 /** 
  *[get]
  *获取城市

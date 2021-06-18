@@ -8,37 +8,60 @@
       left-text="返回"
       @click-left="onClickLeft"
     />
-    <van-tabs
-      color="#FF7100"
-      title-active-color="#FF7100"
-      v-model="active"
-      animated
-      sticky
-      swipeable
-      offset-top="46px"
+
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      :immediate-check="false"
+      @load="NewsIndexListMore"
     >
-      <van-tab v-for="item of tabs" :title="item.name" :key="item.itemId">
-        <div class="content">
-          <div v-if="item.childList" class="content-header">
-            <van-grid :border="false">
-              <van-grid-item
-                v-for="oitem of item.childList"
-                :key="oitem.itemId"
-              >
-                <div
-                  class="menu-item"
-                  :name="active"
-                  :class="{ 'item-active': oitem.itemId == active }"
+      <van-tabs
+        color="#FF7100"
+        title-active-color="#FF7100"
+        v-model="active"
+        sticky
+        swipeable
+        offset-top="46px"
+        :lazy-render="false"
+        @change="tabsChange"
+        :before-change="beforeChange"
+      >
+        <van-tab v-for="item of tabs" :title="item.name" :key="item.itemId">
+          <div class="content">
+            <div v-if="item.childList" class="content-header">
+              <van-grid :border="false">
+                <van-grid-item
+                  v-for="oitem of item.childList"
+                  :key="oitem.itemId"
                 >
-                  {{ oitem.name }}
-                </div>
-              </van-grid-item>
-            </van-grid>
+                  <div
+                    class="menu-item"
+                    :name="active"
+                    :class="{
+                      'item-active': oitem.itemId == tabsActive,
+                    }"
+                    @click="changeMenuItem(oitem)"
+                  >
+                    {{ oitem.name }}
+                  </div>
+                </van-grid-item>
+              </van-grid>
+            </div>
+            <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+              <div class="content-list">
+                <newsItem
+                  v-for="(oitem, index) of listData"
+                  :info="oitem"
+                  :key="index"
+                  :have-img="false"
+                />
+              </div>
+            </van-pull-refresh>
           </div>
-          <newsItem v-for="item of 20" :key="item" :have-img="false" />
-        </div>
-      </van-tab>
-    </van-tabs>
+        </van-tab>
+      </van-tabs>
+    </van-list>
   </div>
 </template>
 
@@ -97,9 +120,14 @@ export default {
           ],
         },
       ],
+      tabsActive: 111, //固定基建
       listData: [],
       pageIndex: 1,
-      pageSize: 50,
+      pageSize: 20,
+      loading: false,
+      finished: false,
+      refreshing: false,
+      cancel: "",
     };
   },
   components: {
@@ -107,19 +135,66 @@ export default {
   },
   created() {
     this.NewsIndexList();
+    this.$toast.loading({
+      message: "加载中...",
+      forbidClick: true,
+      duration: 0,
+    });
   },
   methods: {
     onClickLeft() {
       this.$router.go(-1);
     },
     async NewsIndexList() {
+      this.pageIndex = 1;
+      this.finished = false;
       let res = await GetNewsIndexList({
         memberId: 0,
-        itemId: 0,
+        itemId: this.tabs[this.active].itemId,
         pageIndex: this.pageIndex,
         pageSize: this.pageSize,
       });
-      console.log(res);
+      this.listData = res.data;
+      this.refreshing = false;
+      this.$toast.clear();
+    },
+    async NewsIndexListMore() {
+      this.pageIndex = this.pageIndex + 1;
+      let res = await GetNewsIndexList({
+        memberId: 0,
+        itemId: this.tabs[this.active].itemId,
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize,
+      });
+      this.listData = [...this.listData, ...res.data];
+      this.loading = false;
+      if (res.data.length < 20) {
+        this.finished = true;
+      }
+    },
+    tabsChange() {
+      this.refreshing = true;
+      this.NewsIndexList();
+    },
+    beforeChange() {
+      if (this.refreshing) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    changeMenuItem(item) {
+      this.tabsActive = item.itemId;
+      this.tabs[3].itemId = item.itemId;
+      this.tabsChange();
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0,
+      });
+    },
+    onRefresh() {
+      this.NewsIndexList();
     },
   },
 };
@@ -147,10 +222,10 @@ export default {
       font-size: 14px;
       color: #636363;
     }
+    .item-active {
+      color: #fff;
+      background: #ff7100;
+    }
   }
-}
-.item-active {
-  color: #fff;
-  background: #ff7100;
 }
 </style>

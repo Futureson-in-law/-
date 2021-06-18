@@ -4,55 +4,40 @@
       :left-arrow="true"
       title="今日快讯"
       left-text="返回"
+      :fixed="true"
+      :placeholder="true"
       @click-left="onClickLeft"
     />
-    <div class="time-box">
-      <div class="deta">2021年05月24日</div>
-      <div class="item-box">
-        <div class="time">18:53</div>
-        <div class="text">24日MTI进口矿石指数748</div>
-        <div class="share-box">
-          <div class="share" @click="share">
+    <van-list
+      v-model="moreLoading"
+      :finished="finished"
+      finished-text="没有更多了"
+      :immediate-check="false"
+      @load="onLoad"
+    >
+      <div v-if="!loading">
+        <div
+          class="time-box"
+          v-for="(val, key, index) in listData"
+          :key="index"
+        >
+          <div class="deta" :class="index == 0 ? 'color' : ''">{{ key }}</div>
+          <div class="item-box" v-for="(item, oindex) of val" :key="oindex">
+            <div class="time" :class="index == 0 && oindex == 0 ? 'color' : ''">
+              {{ item.pubDate }}
+            </div>
+            <div class="text" :class="index == 0 ? 'color' : ''">
+              {{ item.articleContent }}
+            </div>
+            <div class="share-box">
+              <!-- <div class="share" @click="share">
             <img src="../assets/img/icon-fenxiang@2x.png" alt="" /> 转发
+          </div> -->
+            </div>
           </div>
         </div>
       </div>
-      <div class="item-box" :class="{ 'item-box-last': true }">
-        <div class="time">18:53</div>
-        <div class="text">
-          24日调价：下午唐山普方坯降20，本地部分钢厂及昌黎部分钢厂出厂报3590，现金含税。
-        </div>
-        <div class="share-box">
-          <div class="share">
-            <img src="../assets/img/icon-fenxiang@2x.png" alt="" /> 转发
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="time-box">
-      <div class="deta">2021年05月24日</div>
-      <div class="item-box">
-        <div class="time">18:53</div>
-        <div class="text">24日MTI进口矿石指数748</div>
-        <div class="share-box">
-          <div class="share">
-            <img src="../assets/img/icon-fenxiang@2x.png" alt="" /> 转发
-          </div>
-        </div>
-      </div>
-      <div class="item-box" :class="{ 'item-box-last': true }">
-        <div class="time">18:53</div>
-        <div class="text">
-          24日调价：下午唐山普方坯降20，本地部分钢厂及昌黎部分钢厂出厂报3590，现金含税。
-        </div>
-        <div class="share-box">
-          <div class="share">
-            <img src="../assets/img/icon-fenxiang@2x.png" alt="" /> 转发
-          </div>
-        </div>
-      </div>
-    </div>
-
+    </van-list>
     <van-share-sheet
       v-model="showShare"
       title="立即分享给好友"
@@ -63,6 +48,7 @@
 </template>
 
 <script>
+import { GetTodayNewsArticleList } from "../api/api";
 export default {
   data() {
     return {
@@ -73,6 +59,12 @@ export default {
         { name: "QQ", icon: "qq" },
         { name: "复制链接", icon: "link" },
       ],
+      pageIndex: 1,
+      pageSize: 20,
+      listData: {},
+      loading: true,
+      moreLoading: false,
+      finished: false,
     };
   },
   mounted() {
@@ -83,7 +75,59 @@ export default {
   beforeDestroy() {
     document.querySelector("body").removeAttribute("style");
   },
+  created() {
+    this.TodayNewsArticleList();
+  },
   methods: {
+    async TodayNewsArticleList() {
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0,
+      });
+      let res = await GetTodayNewsArticleList({
+        memberId: 0,
+        itemId: 99,
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize,
+      });
+      this.listData = Object.assign({}, this.arrayChange(res.data));
+      this.loading = false;
+      this.$toast.clear();
+    },
+    async TodayNewsArticleListMore() {
+      this.pageIndex = this.pageIndex + 1;
+      let res = await GetTodayNewsArticleList({
+        memberId: 0,
+        itemId: 99,
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize,
+      });
+      this.listData = Object.assign({}, this.arrayChange(res.data));
+      this.moreLoading = false;
+      if (res.data.length < 20) {
+        this.finished = true;
+      }
+    },
+
+    arrayChange(array) {
+      let newListData = this.listData;
+      array.forEach((element) => {
+        let item = {
+          pubDate: element.pubDate,
+          articleContent: element.articleContent,
+        };
+        if (newListData[element.postDate] != undefined) {
+          newListData[element.postDate].push(item);
+        } else {
+          newListData[element.postDate] = [item];
+        }
+      });
+      return newListData;
+    },
+    onLoad() {
+      this.TodayNewsArticleListMore();
+    },
     share() {
       this.showShare = true;
     },
@@ -160,5 +204,8 @@ export default {
 }
 .item-box-last {
   border-left: 0;
+}
+.color {
+  color: #ff7100 !important;
 }
 </style>

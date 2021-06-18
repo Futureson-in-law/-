@@ -4,7 +4,7 @@
       <img src="../../assets/img/icon-jinri@2x.png" alt="" srcset="" />
     </div>
     <div class="center">
-      <div class="content" @click="changeRouter('/')">
+      <div class="content" @click="changeRouter('/alerts')">
         <van-swipe
           autoplay="3000"
           :touchable="false"
@@ -45,10 +45,10 @@ export default {
       return String(text).substring(0, 34) + "..";
     },
     changeRouter(router) {
-      this.$toast("即将上线，敬请期待");
-      // this.$router.push({
-      //   path: router,
-      // });
+      // this.$toast("即将上线，敬请期待");
+      this.$router.push({
+        path: router,
+      });
     },
     async TodayNewsArticleList() {
       let res = await GetTodayNewsArticleList({

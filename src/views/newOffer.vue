@@ -67,7 +67,7 @@
                 v-for="(oitem, oindex) of item.jbTypeSubModelList"
                 :key="oindex"
               >
-                {{ oitem.price }}
+                {{ oitem.price == 0 ? "--" : oitem.price }}
               </div>
             </div>
           </div>

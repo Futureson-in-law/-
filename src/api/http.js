@@ -1,13 +1,21 @@
 
-import axios from 'axios'; 
-import QS from 'qs'; 
+import axios from 'axios';
+import QS from 'qs';
 import { Toast } from 'vant';
 import { getToken } from '../util/util'
-
-
 import store from '@/store/index';
-axios.defaults.timeout = 20000;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
+
+
+axios.create({
+    timeout: 20000, //超时时间
+    responseType: "json",//'arraybuffer', 'blob', 'document', 'json', 'text', 'stream'
+    withCredentials: true,//表示跨域请求时是否需要使用凭证
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    }
+})
+
 
 axios.interceptors.request.use(
     config => {
@@ -28,7 +36,7 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
-        // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
+        // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据 
         if (response.status === 200) {
             return Promise.resolve(response);
         } else {

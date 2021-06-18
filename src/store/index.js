@@ -11,7 +11,8 @@ export default new Vuex.Store({
     openid: "",//记录用户openid 减少公众号Code获取次数
     indexRefresh: false,//首页数据是否需要自动刷新
     H5payReturn: false,//H5支付情况下是否需要回调查询
-    loginReturn: ''//登录后返回的页面
+    loginReturn: '',//登录后返回的页面
+    tabbar: true
   },
   getters: {
     getUserInfo(state) {
@@ -106,6 +107,9 @@ export default new Vuex.Store({
       } catch (e) {
         console.log(e);
       }
+    },
+    changTabbar(state, val) {
+      state.tabbar = val
     },
     changLoginReturn(state, val) {
       state.loginReturn = val

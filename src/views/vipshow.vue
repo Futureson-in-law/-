@@ -147,7 +147,7 @@ export default {
       this.introducePicAPP = list[index].introducePicAPP;
     },
     async submit() {
-      this.$store.commit("changLoginReturn",'vip')
+      this.$store.commit("changLoginReturn", "vip");
       this.$toast(`登录后才可以开通哦，即将前往登录···`);
       let time = setTimeout(() => {
         clearTimeout(time);

@@ -1,9 +1,15 @@
 <template>
   <div class="box">
-    <div v-if="haveImg" class="have-img-box" @click="changeRouter('/detail/1')">
+    <div
+      v-if="info.imageList.length > 0"
+      class="have-img-box"
+      @click="
+        changeRouter(`/detail/${info.newsId}?dataSource=${info.dataSource}`)
+      "
+    >
       <div class="left">
         <div class="title">
-          6月5日天津源泰德润方矩管源泰德润方矩管源泰德润方矩管
+          {{ info.title }}
         </div>
         <div class="tips">
           <img
@@ -12,23 +18,29 @@
             alt=""
             srcset=""
           />
-          10分钟前
+          {{ info.postDate }}
           <img
             style="margin: 0px 5px 0px 7px"
             src="../assets/img/icon-chakan@2x.png"
             alt=""
             srcset=""
           />
-          864
+          {{ info.hits }}
         </div>
       </div>
       <div class="right">
-        <img src="../assets/img/pic1@2x.png" alt="" srcset="" />
+        <img :src="info.imageList[0]" alt="" srcset="" />
       </div>
     </div>
-    <div v-else class="no-img-box" @click="changeRouter('/detail/1')">
+    <div
+      v-else
+      class="no-img-box"
+      @click="
+        changeRouter(`/detail/${info.newsId}?dataSource=${info.dataSource}`)
+      "
+    >
       <div class="title">
-        6月5日天津源泰德润方矩管源泰德润方矩管源泰德润方矩管
+        {{ info.title }}
       </div>
       <div class="tips">
         <img
@@ -37,14 +49,14 @@
           alt=""
           srcset=""
         />
-        10分钟前
+        {{ info.postDate }}
         <img
           style="margin: 0px 5px 0px 7px"
           src="../assets/img/icon-chakan@2x.png"
           alt=""
           srcset=""
         />
-        864
+        {{ info.hits }}
       </div>
     </div>
   </div>
@@ -53,9 +65,9 @@
 <script>
 export default {
   props: {
-    haveImg: {
-      type: Boolean,
-      default: false,
+    info: {
+      type: Object,
+      default: {},
     },
   },
   data() {
@@ -101,7 +113,7 @@ export default {
       display: flex;
       align-items: center;
       color: #979797;
-
+      font-size: 14px;
       img {
         width: 24px;
         height: 24px;
@@ -116,6 +128,7 @@ export default {
     justify-content: center;
     img {
       width: 90%;
+      height: 90%;
     }
   }
 }
@@ -144,7 +157,7 @@ export default {
     display: flex;
     align-items: center;
     color: #979797;
-
+    font-size: 14px;
     img {
       width: 24px;
       height: 24px;

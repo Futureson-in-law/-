@@ -69,7 +69,7 @@ export default {
   padding-bottom: 12px;
   box-sizing: border-box;
   img {
-    width: 80px;
+    width: 100px;
     margin-bottom: 16px;
   }
   p {

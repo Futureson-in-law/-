@@ -12,7 +12,7 @@
         <van-icon name="share-o" size="18" />
       </template> -->
     </van-nav-bar>
-    <div class="news-content">
+    <div class="news-content" v-if="!loading">
       <div class="news-title">
         {{ data.title }}
       </div>
@@ -33,13 +33,16 @@
 
 <script>
 import { GetArticleDetail } from "../api/api";
+import $ from "jquery";
 import placeholder from "../components/placeholder";
+
 export default {
   data() {
     return {
       newsId: "",
       DataSource: "",
       data: "",
+      loading: true,
     };
   },
   components: {
@@ -49,21 +52,47 @@ export default {
     if (this.$route.params.id) {
       this.newsId = this.$route.params.id;
     }
-    if (this.$route.query.DataSource) {
-      this.DataSource = this.$route.query.DataSource;
+    if (this.$route.query.dataSource) {
+      this.DataSource = this.$route.query.dataSource;
     }
     this.ArticleDetail();
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.contnetChange();
+    });
   },
   methods: {
     onClickLeft() {
       this.$router.go(-1);
     },
     async ArticleDetail() {
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0,
+      });
       let res = await GetArticleDetail({
         newsId: this.newsId,
         DataSource: this.DataSource,
       });
       this.data = res.data;
+      this.loading = false;
+      this.$toast.clear();
+    },
+    contnetChange() {
+      setTimeout(() => {
+        $.each($("table"), function (index, val) {
+          $(val).wrap("<div class='table-box'></div>");
+        });
+        $.each($("a"), function (index, val) {
+          if (val.text == "钢厂频道") {
+            $(val).parents("p").hide();
+          } else if (val.text == "www.zgw.com") {
+            $(val).hide();
+          }
+        });
+      }, 100);
     },
   },
 };
@@ -100,6 +129,10 @@ export default {
     line-height: 24px;
     margin-bottom: 6px;
   }
+  /deep/img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 .hits {
   padding: 10px 16px;
@@ -110,5 +143,9 @@ export default {
   color: #7e7d7d;
   font-size: 12px;
   padding: 8px 16px;
+}
+.table-box {
+  width: 100%;
+  overflow-x: scroll;
 }
 </style>

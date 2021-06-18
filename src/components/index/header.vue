@@ -25,7 +25,10 @@ export default {
     };
   },
   created() {
-    if (this.$store.getters.getUserInfo.companyID) {
+    if (
+      this.$store.getters.getUserInfo &&
+      this.$store.getters.getUserInfo.mobile
+    ) {
       this.islogin = true;
     }
   },

@@ -21,7 +21,6 @@
         <div class="price">￥<span>1980</span>/年</div>
         <div class="btn">立即升级</div>
       </div> -->
-
           <div
             class="item-ts"
             :class="{
@@ -61,6 +60,18 @@
           >《全网通超级会员协议》</span
         >
       </div>
+
+      <iframe
+        class="video-vip"
+        src="//player.bilibili.com/player.html?aid=803736610&bvid=BV1Uy4y1T7Dt&cid=356353234&page=1&high_quality=1&danmaku=0"
+        scrolling="no"
+        border="0"
+        sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"
+        frameborder="no"
+        framespacing="0"
+        allowfullscreen="true"
+      >
+      </iframe>
       <van-image
         style="display: block"
         v-for="item of introducePicAPP"
@@ -132,11 +143,17 @@ export default {
     };
   },
   async created() {
+    if (this.$route.query.source) {
+      this.$store.commit("changTabbar", false);
+    }
     this.getusercenter();
     this.HqServiceByMemberID();
     try {
       await wxRecord(8003);
     } catch (error) {}
+  },
+  beforeDestroy() {
+    this.$store.commit("changTabbar", true);
   },
   methods: {
     async HqServiceByMemberID() {
@@ -159,19 +176,42 @@ export default {
     async submit() {
       let list = this.Available;
       let item = list[this.priceIndex];
+      let iSourceID = commondata.iSourceID;
+      //移动端使用支付落地页
+      if (this.$route.query.source) {
+        iSourceID = this.$route.query.source === "ios" ? 2 : 3;
+        let res = await this.getMakeOrder(iSourceID, item);
+        if (res.result == 1) {
+          if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+            window.webkit.messageHandlers.getOrder.postMessage({
+              orderId: res.orderid,
+              name: item.serviceName,
+            });
+          } else if (navigator.userAgent.match(/android/i)) {
+            window.webCall.getOrder(res.orderid, item.serviceName);
+          }
+        } else {
+          this.$toast(res.msg);
+        }
+      } else {
+        let res = await this.getMakeOrder(iSourceID, item);
+        if (res.result == 1) {
+          this.$router.push({
+            name: "order",
+            params: { orderId: res.orderid },
+          });
+        } else {
+          this.$toast(res.msg);
+        }
+      }
+    },
+    async getMakeOrder(iSourceID, item) {
       let res = await MakeOrder({
-        iSourceID: commondata.iSourceID,
+        iSourceID: iSourceID,
         iMemberID: this.$store.getters.getUserInfo.memberID,
         strServiceID: item.id,
       });
-      if (res.result == 1) {
-        this.$router.push({
-          name: "order",
-          params: { orderId: res.orderid },
-        });
-      } else {
-        this.$toast(res.msg);
-      }
+      return res;
     },
 
     async receive() {
@@ -209,6 +249,10 @@ export default {
   display: block;
   border: 0;
   margin: 10px auto;
+}
+.video-vip {
+  width: 100%;
+  margin-bottom: 16px;
 }
 .vip-title {
   font-size: 18px;

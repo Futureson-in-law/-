@@ -4,11 +4,11 @@
     <div class="content">
       <div class="left">
         <div class="name">当前报价</div>
-        <div class="num">{{ purchase.caigoucount }} <span>家</span></div>
+        <div class="num">{{ purchase.countcompany }} <span>家</span></div>
       </div>
       <div class="right">
         <div class="name">当前订单量</div>
-        <div class="num">{{ purchase.countcompany }} <span>单</span></div>
+        <div class="num">{{ purchase.caigoucount }} <span>单</span></div>
       </div>
     </div>
   </div>

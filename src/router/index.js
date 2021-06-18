@@ -66,7 +66,8 @@ const routes = [
     meta: {
       title: '最新行情',
       showTabbar: true,
-      haveLogin: false
+      haveLogin: false,
+      keepAlive: true
     },
     component: Home
   },
@@ -206,7 +207,8 @@ const routes = [
     meta: {
       title: '钢铁资讯',
       showTabbar: false,
-      haveLogin: false
+      haveLogin: false,
+      keepAlive: true
     },
     component: NewsList
   },

@@ -14,8 +14,8 @@
           <div
             @click="changeRouter"
             class="item"
-            v-for="oitem of item"
-            :key="oitem.cgId"
+            v-for="(oitem, oindex) of item"
+            :key="oindex"
           >
             <strong></strong> {{ oitem.pm }} <span></span> {{ oitem.cz
             }}<span></span> {{ oitem.gg }} <span></span> {{ oitem.ton }}吨
@@ -79,8 +79,8 @@ export default {
       padding: 0 5px;
     }
     strong {
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
       background: #ff6824;
       margin-right: 8px;
       margin-left: 2px;

@@ -9,11 +9,13 @@
     <div class="content">
       <img src="../../assets/img/logo_zgw_qr@2x.png" alt="" srcset="" />
       <p>每日更新钢材价格、钢材行情分析、钢材市场涨跌资讯</p>
-      <div class="down">{{ isWeixin ? "长按图片识别" : "长按图片保存" }}</div>
+      <div class="down">
+        {{ isWeixin ? "长按二维码识别" : "长按二维码保存" }}
+      </div>
     </div>
     <div class="tips">
       如何操作？<br />
-      1.{{ isWeixin ? "长按二维码图片识别" : "长按二维码图片保存" }}<br />
+      1.{{ isWeixin ? "长按二维码识别" : "长按二维码保存" }}<br />
       2.通过微信识别二维码即可进入公众号
     </div>
   </div>
