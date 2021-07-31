@@ -9,7 +9,7 @@
       >
         <img
           class="banner"
-          @click="routeLink(item.HttpUrl)"
+          @click="routeLink(item)"
           :src="item.ImgUrl"
           alt=""
           srcset=""
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { GetBannerList } from "../../api/api";
+import { GetNewsBannerListZMS, AddAdvertClickLog } from "../../api/api";
 export default {
   data() {
     return {
@@ -28,13 +28,18 @@ export default {
     };
   },
   async created() {
-    let { data } = await GetBannerList();
+    let { data } = await GetNewsBannerListZMS();
     this.list = data;
   },
   methods: {
-    routeLink(url) {
-      if (url == "#") return;
-      window.location.href = url;
+    async routeLink(item) {
+      if (item.HttpUrl == "#") return;
+      let memberID = this.$store.state.userInfo.memberID || 0;
+      await AddAdvertClickLog({
+        sAdvertID: item.sAdvertID,
+        memberId: memberID,
+      });
+      window.location.href = item.HttpUrl;
     },
   },
 };

@@ -38,7 +38,7 @@ export default {
     placeholder,
     Footer,
   },
-  created() {
+  async created() {
     this.CaigouIndexList();
   },
   methods: {

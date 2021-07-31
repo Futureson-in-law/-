@@ -80,12 +80,14 @@ export default {
   beforeDestroy() {
     document.querySelector("body").removeAttribute("style");
   },
+
   async created() {
     this.userinfo = await usercenter();
     setTimeout(() => {
       this.loading = false;
     }, 600);
   },
+  
   methods: {
     exit() {
       this.$dialog

@@ -18,6 +18,10 @@ import newOffer from '../views/newOffer'
 import Alerts from '../views/alerts'
 import NewsList from '../views/newsList'
 import newsDetail from '../views/newsDetail'
+import Cglist from '../views/caigoutong/list/index'
+import Cgdetail from '../views/caigoutong/detail/index'
+
+
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location, onResolve, onReject) {
@@ -221,6 +225,27 @@ const routes = [
       haveLogin: false
     },
     component: newsDetail
+  },
+  {
+    path: '/CG/list',
+    name: 'Cglist',
+    meta: {
+      title: '采购通',
+      showTabbar: false,
+      haveLogin: false,
+      keepAlive: false
+    },
+    component: Cglist
+  },
+  {
+    path: '/CG/detail/:id',
+    name: 'Cgdetail',
+    meta: {
+      title: '订单报价',
+      showTabbar: false,
+      haveLogin: true
+    },
+    component: Cgdetail
   },
   {
     path: '*',

@@ -128,3 +128,32 @@ export const _BJLIST = [
         "itemId": 0
     }
 ]
+
+export const _CGT_STATE_LIST = [
+    {
+        "typeId": 0,
+        "name": "全部"
+    },
+    {
+        "typeId": 1,
+        "name": "进行中"
+    },
+    {
+        "typeId": 2,
+        "name": "已截止"
+    }
+]
+export const _CGT_TYPE_LIST = [
+    {
+        "typeId": 0,
+        "name": "全部"
+    },
+    {
+        "typeId": 1,
+        "name": "常规采购"
+    },
+    {
+        "typeId": 2,
+        "name": "紧急采购"
+    }
+]

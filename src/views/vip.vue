@@ -63,7 +63,7 @@
 
       <iframe
         class="video-vip"
-        src="//player.bilibili.com/player.html?aid=803736610&bvid=BV1Uy4y1T7Dt&cid=356353234&page=1&high_quality=1&danmaku=0"
+        src="//player.bilibili.com/player.html?aid=249220319&bvid=BV17v411n7cz&cid=369200369&page=1&high_quality=1&danmaku=0"
         scrolling="no"
         border="0"
         sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"
@@ -72,6 +72,7 @@
         allowfullscreen="true"
       >
       </iframe>
+
       <van-image
         style="display: block"
         v-for="item of introducePicAPP"

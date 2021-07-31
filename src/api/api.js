@@ -123,3 +123,49 @@ export const GetArticleDetail = (params) => {
 export const GetNewsIndexList = (params) => {
     return get(apiUrl + "/Master/GetNewsIndexList", params)
 }
+//获取主页banner图
+export const GetNewsBannerListZMS = (params) => {
+    return get(apiUrl + "/MarketQuotations/GetNewsBannerListZMS", params)
+}
+/** 
+ *[post]
+ *手机app、wap添加点击广告事件记录
+ */
+export const AddAdvertClickLog = (params) => {
+    return post(apiUrl + "/Master/AddAdvertClickLog", params)
+}
+
+// 采购订单列表
+export const GetCaiGouList = (parame) => {
+    return get(apiUrl + '/CaiGou/GetCaiGouList', parame)
+}
+
+// 采购订单详情
+export const GetSelectiveOrderDetailByCgId = (parame) => {
+    return get(apiUrl + '/PushOrder/GetSelectiveOrderDetailByCgId', parame)
+}
+
+// 获取钢厂
+export const GetProductAreaList = (parame) => {
+    return get(apiUrl + '/CaiGou/GetProductAreaList', parame)
+}
+
+// 获取省份城市
+export const GetCityByFid = (parame) => {
+    return get(apiUrl + '/EnterPrise/GetCityByFid', parame)
+}
+
+// 提交采购单订单报价
+export const AddQuotedPrice = (parame) => {
+    return post(apiUrl + '/PushOrder/AddQuotedPrice', parame)
+}
+
+// 撤销采购单订单报价
+export const CancelQuotedPrice = (parame) => {
+    return post(apiUrl + '/PushOrder/CancelQuotedPrice', parame)
+}
+
+// 获取采购通品类等等..
+export const GetCaiGouDefaultData = (parame) => {
+    return get(apiUrl + '/CaiGou/GetCaiGouDefaultData', parame)
+}

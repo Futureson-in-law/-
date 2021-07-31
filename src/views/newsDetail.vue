@@ -58,9 +58,7 @@ export default {
     this.ArticleDetail();
   },
   mounted() {
-    this.$nextTick(() => {
-      this.contnetChange();
-    });
+    this.contnetChange();
   },
   methods: {
     onClickLeft() {
@@ -131,7 +129,22 @@ export default {
   }
   /deep/img {
     max-width: 100%;
-    height: auto;
+    height: auto !important;
+  }
+  /deep/.table-box {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  /deep/table {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    td {
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      padding: 4px 6px;
+      color: #333 !important;
+    }
   }
 }
 .hits {
